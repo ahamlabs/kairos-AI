@@ -28,7 +28,7 @@ class GeminiService:
         os.makedirs("./data", exist_ok=True)
         pattern: str = r'```json(.*?)```'
         match = re.search(pattern, response, re.DOTALL)
-        print(match.group(1))
+        # print(match.group(1))
         if match:
             os.makedirs(f"./data/{self.USER_ID}", exist_ok=True)
             with open(f"./data/{self.USER_ID}/syllabus.json", "w") as f:

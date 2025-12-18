@@ -6,3 +6,4 @@ google-genai
 python-dotenv
 yt-dlp
 python-youtube
+tqdm

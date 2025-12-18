@@ -2,6 +2,7 @@ from yt_dlp import YoutubeDL
 from geminiServices import GeminiService
 import os
 import json
+from tqdm import tqdm as bar
 
 class YtSearch:
     def __init__(self, user_id: str):
@@ -56,7 +57,7 @@ class YtSearch:
         Returns:
             list: A list of dictionaries, each containing metadata for a video.
         """
-        search_query = f"ytsearch{max_results}:{query}"
+        search_query =  f"ytsearch{max_results}:{query}"
         
         results = []
         try:
@@ -73,7 +74,7 @@ class YtSearch:
 
     def run(self):
         queries = self.queries()
-        for query in queries:
+        for query in bar(queries, total=len(queries)):
             results = self.search(query["query"])
             info = {}
             for i in results:
@@ -89,10 +90,10 @@ class YtSearch:
                     "view_count": i["view_count"]
                 }
 
-                # store the info dictionary in a json file
-                os.makedirs(f"./data/{self.USER_ID}", exist_ok=True)
-                with open(f"./data/{self.USER_ID}/{query['query_index']}.json", "w") as f:
-                    json.dump(info, f)
+            # store the info dictionary in a json file
+            os.makedirs(f"./data/{self.USER_ID}", exist_ok=True)
+            with open(f"./data/{self.USER_ID}/{query['topic_title']}.json", "w") as f:
+                json.dump(info, f)
 
 if __name__ == "__main__":
     user_goal_context: str = input("Enter the user goal context: ")
